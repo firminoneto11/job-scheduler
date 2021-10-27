@@ -6,32 +6,33 @@ const seconds = 3600;
 // const seconds = 10;
 
 
-const isRunning = (process) => {
+const isRunning = (proc) => {
     return new Promise((resolve, reject) => {
         let cmd = 'tasklist';
         exec(cmd, (err, stdout, stderr) => {
             if (err){
-                let errors = [err, stderr];
-                reject(errors);
+                reject([err, stderr]);
             }
             else if (stdout){
-                const res = stdout.toLowerCase().indexOf(process.toLowerCase()) > -1
-                resolve(res);
+                const res = stdout.toLowerCase().indexOf(proc.toLowerCase()) > -1
+                resolve([res]);
             }
         });
     });
-    
 }
 
 
 const Execute = async () => {
-    const response = await isRunning(whatsProcess);
-    if (response) {
+    const running = await isRunning(whatsProcess);
+    if (running[0] === true) {
         exec(`taskkill /im ${whatsProcess} /t /f`);
         exec(`"${whatsExe}" start`);
     }
-    else {
+    else if (running[0] === false) {
         exec(`"${whatsExe}" start`);
+    }
+    else {
+        console.log(`Houve um erro ao tentar iniciar/reiniciar o serviço do WhatsApp server. Mais detalhes do mesmo:\n${running[0]}\n${running[1]}`);
     }
 }
 
