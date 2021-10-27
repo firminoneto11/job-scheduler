@@ -1,8 +1,9 @@
 
-const schedule = require('node-schedule');
-const {exec} = require("child_process");
+const { exec } = require("child_process");
 const whatsProcess = 'WhatsAppWeb.exe';
 const whatsExe = ".\\WhatsAppWeb - Atalho.lnk";
+const seconds = 3600;
+// const seconds = 10;
 
 
 const isRunning = (process) => {
@@ -35,8 +36,10 @@ const Execute = async () => {
 }
 
 
-// Execução do JOB
-schedule.scheduleJob('*/59 * * * *', () => {
-    console.log(`WhatsApp Server reiniciado às ${new Date().toLocaleString()}`);
+setInterval(() => {
+    console.log(`\nWhatsApp Server reiniciado às ${new Date().toLocaleString()}`);
     Execute();
-});
+}, seconds * 1000);
+
+console.log(`Serviço de reinicialização do WhatsApp executado às ${new Date().toLocaleString()}...\nAguarde a próxima reinicialização.`);
+Execute();

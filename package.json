@@ -9,9 +9,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "node-schedule": "^2.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "pkg": "^5.4.0"
   }
